@@ -1,50 +1,51 @@
 'use strict'
 
 var test = require('tape')
-var extend = require('xtend')
 var stub = require('sinon').stub
-var Stripe = window.Stripe
-var stripeAsPromised = require('./')
+var Conekta = window.Conekta
+var conektaErrback = require('./')
 
 test(function (t) {
-  t.throws(stripeAsPromised, /Stripe/, 'requires Stripe')
+  t.throws(conektaErrback, /Conekta/, 'requires Conekta')
 
-  var stripe = stripeAsPromised(Stripe)
-  t.equal(stripe.card.validateCardNumber, Stripe.card.validateCardNumber, 'references sync methods')
+  var conekta = conektaErrback(Conekta)
+
+  t.equal(conekta.token.validateNumber, Conekta.token.validateNumber, 'references sync methods')
 
   t.test('createToken', function (t) {
-    t.plan(4)
-    stub(Stripe.card, 'createToken').yieldsAsync(200, {id: 'token'})
+    t.plan(3)
+    stub(Conekta.token, 'create').callsArgWithAsync(1, {id: 'token'})
     var data = {}
-    var params = {}
-    stripe.card.createToken(data, params, function (err, res) {
+    conekta.token.create(data, function (err, res) {
       if (err) return t.end(err)
 
       t.equal(res.id, 'token')
-      t.equal(Stripe.card.createToken.callCount, 1)
-      var args = Stripe.card.createToken.firstCall.args
+      t.equal(Conekta.token.create.callCount, 1)
+      var args = Conekta.token.create.firstCall.args
       t.equal(args[0], data)
-      t.equal(args[1], params)
     })
   })
 
   t.test('errors', function (t) {
-    t.plan(4)
+    t.plan(7)
 
     var response = {
-      error: {
-        message: 'Routing number must have 9 digits',
-        param: 'bank_account',
-        type: 'invalid_request_error'
-      }
+      type: 'parameter_validation_error',
+      message: 'Something went wrong on Conekta\'s end',
+      message_to_purchaser: 'Your code could not be processed, please try again later',
+      error_code: 'invalid_expiry_month',
+      param: 'card[exp_month]'
     }
 
-    stub(Stripe.bankAccount, 'createToken').yieldsAsync(400, response)
-    stripe.bankAccount.createToken({}, {}, function (err) {
+    Conekta.token.create.callsArgWithAsync(2, response)
+    conekta.token.create({}, function (err) {
       t.ok(err instanceof Error)
-      t.equal(err.message, response.error.message)
-      t.equal(err.status, 400)
-      t.deepEqual(err, extend(response.error, {status: 400}))
+      t.equal(err.type, response.type)
+      t.equal(err.message, response.message)
+      t.equal(err.message_to_purchaser, response.message_to_purchaser)
+      t.equal(err.error_code, response.error_code)
+      t.equal(err.param, response.param)
+      t.deepEqual(err, response)
     })
   })
 

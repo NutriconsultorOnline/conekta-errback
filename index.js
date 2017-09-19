@@ -3,46 +3,38 @@
 var assign = require('xtend/mutable')
 var dot = require('dot-prop')
 
-var methods = stripeErrback.methods = {
+var methods = conektaErrback.methods = {
   async: [
-    'card.createToken',
-    'bankAccount.createToken',
-    'piiData.createToken',
-    'bitcoinReceiver.createReceiver',
-    'bitcoinReceiver.pollReceiver',
-    'bitcoinReceiver.getReceiver'
+    'token.create'
   ],
   sync: [
     'setPublishableKey',
-    'card.validateCardNumber',
-    'card.validateExpiry',
+    'card.validateNumber',
+    'card.validateExpirationDate',
     'card.validateCVC',
-    'card.cardType',
-    'bankAccount.validateRoutingNumber',
-    'bankAccount.validateAccountNumber',
-    'bitcoinReceiver.cancelReceiverPoll'
+    'card.getBrand'
   ]
 }
 
-module.exports = stripeErrback
+module.exports = conektaErrback
 
-function stripeErrback (Stripe) {
-  if (typeof Stripe !== 'function') throw new Error('Stripe.js must be provided')
+function conektaErrback (Conekta) {
+  if (typeof Conekta !== 'object') throw new Error('Conekta.js must be provided')
 
-  var stripe = {}
+  var conekta = {}
 
   methods.async.forEach(function (method) {
     var names = method.split('.')
     var receiverName = names[0]
     var methodName = names[1]
-    dot.set(stripe, method, toErrback(methodName, Stripe[receiverName]))
+    dot.set(conekta, method, toErrback(methodName, Conekta[receiverName]))
   })
 
   methods.sync.forEach(function (method) {
-    dot.set(stripe, method, dot.get(Stripe, method))
+    dot.set(conekta, method, dot.get(Conekta, method))
   })
 
-  return stripe
+  return conekta
 }
 
 function toErrback (method, receiver) {
@@ -50,9 +42,10 @@ function toErrback (method, receiver) {
     var args = Array.prototype.slice.call(arguments)
     var callback = args.pop()
 
-    receiver[method].apply(receiver, args.concat(function onStripe (status, response) {
-      if (response.error) return callback(assign(new Error(), response.error, {status: status}))
+    receiver[method].apply(receiver, args.concat(function onConekta (response) {
       callback(null, response)
+    }, function errorConekta (error) {
+      callback(assign(new Error(), error))
     }))
   }
 }

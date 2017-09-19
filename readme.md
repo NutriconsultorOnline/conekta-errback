@@ -1,23 +1,23 @@
-# stripe-errback [![Build Status](https://travis-ci.org/bendrucker/stripe-errback.svg?branch=master)](https://travis-ci.org/bendrucker/stripe-errback)
+# conekta-errback [![Build Status](https://travis-ci.org/NutriconsultorOnline/conekta-errback.svg?branch=master)](https://travis-ci.org/NutriconsultorOnline/conekta-errback) [![dependencies Status](https://david-dm.org/NutriconsultorOnline/conekta-errback/status.svg)](https://david-dm.org/NutriconsultorOnline/conekta-errback)
 
-> Wrap Stripe.js async methods to use node-style callbacks
+> Wrap Conekta.js async methods to use node-style callbacks
 
 
 ## Install
 
 ```
-$ npm install --save stripe-errback
+$ npm install --save conekta-errback
 ```
 
 
 ## Usage
 
 ```js
-var stripeErrback = require('stripe-errback')
+var conektaErrback = require('conekta-errback')
 
-var stripe = stripeErrback(window.Stripe)
+var conekta = conektaErrback(window.Conekta)
 
-stripe.card.createToken(data, params, function (err, data) {
+conekta.token.create(data, function (err, data) {
   if (err) { /* console.error(err) */ }
   else { /* token = data.id... */ }
 })
@@ -25,28 +25,23 @@ stripe.card.createToken(data, params, function (err, data) {
 
 ## API
 
-#### `stripeErrback(Stripe)` -> `object`
+#### `conektaErrback(Conekta)` -> `object`
 
-Wraps `window.Stripe` to call a Node-style callback (`function (err, data)`) with results instead of using Stripe's `function (status, response)` functions.
+Wraps `window.Conekta` to call a Node-style callback (`function (err, data)`) with results instead of using Conekta's `function (response)` functions.
 
-##### Stripe
+##### Conekta
 
 *Required*  
 Type: `function`
 
-The Stripe.js browser library (`window.Stripe`).
+The Conekta.js browser library (`window.Conekta`).
 
 The returned object wraps the following methods in addition to exposing utility methods:
 
-* [`card.createToken`](https://stripe.com/docs/stripe.js#card-createToken)
-* [`bankAccount.createToken`](https://stripe.com/docs/stripe.js#bank-account-createToken)
-* [`piiData.createToken`](https://stripe.com/docs/stripe.js?#pii-data-createToken)
-* [`bitcoinReceiver.createReceiver`](https://stripe.com/docs/stripe.js#bitcoinreceiver-createreceiver)
-* [`bitcoinReceiver.pollReceiver`](https://stripe.com/docs/stripe.js#bitcoinreceiver-pollreceiver)
-* `bitcoinReceiver.getReceiver` (undocumented)
+* `card.createToken`
 
-This configuration is exposed as `stripeErrback.methods` with `{async, sync}` containing arrays of dot property paths.
+This configuration is exposed as `conektaErrback.methods` with `{async, sync}` containing arrays of dot property paths.
 
 ## License
 
-MIT © [Ben Drucker](http://bendrucker.me)
+MIT ©
