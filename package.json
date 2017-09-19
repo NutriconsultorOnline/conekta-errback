@@ -1,7 +1,7 @@
 {
   "name": "stripe-errback",
   "main": "index.js",
-  "version": "1.0.2",
+  "version": "0.0.0-development",
   "description": "Wrap Stripe.js async methods to use node-style callbacks",
   "license": "MIT",
   "repository": "bendrucker/stripe-errback",
@@ -11,7 +11,8 @@
     "url": "bendrucker.me"
   },
   "scripts": {
-    "test": "standard && zuul --phantom -- test.js"
+    "test": "standard && zuul --phantom -- test.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "keywords": [
     "stripe",
@@ -27,7 +28,8 @@
     "standard": "^7.1.2",
     "stripe-debug": "^2.0.0",
     "tape": "^4.0.0",
-    "zuul": "^3.10.3"
+    "zuul": "^3.10.3",
+    "semantic-release": "^8.0.0"
   },
   "files": [
     "*.js"
