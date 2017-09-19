@@ -1,4 +1,4 @@
-# conekta-errback [![Build Status](https://travis-ci.org/NutriconsultorOnline/conekta-errback.svg?branch=master)](https://travis-ci.org/NutriconsultorOnline/conekta-errback) [![dependencies Status](https://david-dm.org/NutriconsultorOnline/conekta-errback/status.svg)](https://david-dm.org/NutriconsultorOnline/conekta-errback)
+# conekta-errback [![Build Status](https://travis-ci.org/NutriconsultorOnline/conekta-errback.svg?branch=master)](https://travis-ci.org/NutriconsultorOnline/conekta-errback) [![dependencies Status](https://david-dm.org/NutriconsultorOnline/conekta-errback/status.svg)](https://david-dm.org/NutriconsultorOnline/conekta-errback) [![devDependencies Status](https://david-dm.org/NutriconsultorOnline/conekta-errback/dev-status.svg)](https://david-dm.org/NutriconsultorOnline/conekta-errback?type=dev)
 
 > Wrap Conekta.js async methods to use node-style callbacks
 

@@ -31,7 +31,7 @@
     "*.js"
   ],
   "dependencies": {
-    "dot-prop": "~3.0.0",
+    "dot-prop": "~4.2.0",
     "xtend": "~4.0.1"
   }
 }
