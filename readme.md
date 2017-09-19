@@ -32,7 +32,7 @@ Wraps `window.Conekta` to call a Node-style callback (`function (err, data)`) wi
 ##### Conekta
 
 *Required*  
-Type: `function`
+Type: `object`
 
 The Conekta.js browser library (`window.Conekta`).
 
