@@ -1,7 +1,7 @@
 {
   "name": "conekta-errback",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Wrap Conekta.js async methods to use node-style callbacks",
   "license": "MIT",
   "repository": "NutriconsultorOnline/conekta-errback",
