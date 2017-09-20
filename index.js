@@ -8,7 +8,7 @@ var methods = conektaErrback.methods = {
     'token.create'
   ],
   sync: [
-    'setPublishableKey',
+    'setPublicKey',
     'card.validateNumber',
     'card.validateExpirationDate',
     'card.validateCVC',
